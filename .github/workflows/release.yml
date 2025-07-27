@@ -1,0 +1,55 @@
+name: Release Go CLI
+
+on:
+  push:
+    branches:
+      - main
+      - release/prod
+
+  pull_request:
+    branches:
+      - main
+      - release/prod
+
+jobs:
+  build:
+    name: Build and optionally Release
+    runs-on: ubuntu-latest
+
+    container:
+      image: golang:1.24.5-bookworm
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+
+      - name: Get version from tag (if available)
+        id: get_version
+        run: |
+          git fetch --all --tags
+          tags_main=$(git tag --merged origin/main)
+          tags_prod=$(git tag --merged origin/release/prod)
+          all_tags=$(echo -e "$tags_main\n$tags_prod" | sort -u)
+          latest_tag=$(echo "$all_tags" | sort -V | tail -n 1)
+          echo "version=$latest_tag" >> $GITHUB_OUTPUT
+
+      - name: Build binaries
+        run: .github/workflows/build.sh
+
+      - name: Create GitHub Release
+        if: github.ref == 'refs/heads/release/prod'
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ steps.get_version.outputs.version }}
+          tag_name: ${{ steps.get_version.outputs.version }}
+          body: |
+            Release version ${{ steps.get_version.outputs.version }}
+          files: |
+            dist/tinyrdev-${{ steps.get_version.outputs.version }}-linux-amd64
+            dist/tinyrdev-${{ steps.get_version.outputs.version }}-linux-arm64
+            dist/tinyrdev-${{ steps.get_version.outputs.version }}-darwin-arm64
+            dist/tinyrdev-${{ steps.get_version.outputs.version }}-windows-amd64.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

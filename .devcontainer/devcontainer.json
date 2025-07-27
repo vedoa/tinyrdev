@@ -1,0 +1,13 @@
+{
+	"name": "tinyrdev",
+	"image": "golang:1.24.5-bookworm",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"streetsidesoftware.code-spell-checker", // code spell checking
+				"golang.go", // official vc code extension for go
+				"yzhang.markdown-all-in-one" // markdown tooling
+			]
+		}
+	}
+}
