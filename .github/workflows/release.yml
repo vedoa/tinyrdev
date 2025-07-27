@@ -10,6 +10,7 @@ on:
     branches:
       - main
       - release/prod
+  workflow_dispatch:
 
 jobs:
   build:
@@ -28,12 +29,17 @@ jobs:
       - name: Get version from tag (if available)
         id: get_version
         run: |
+          git config --global --add safe.directory "$(pwd)"
           git fetch --all --tags
-          tags_main=$(git tag --merged origin/main)
-          tags_prod=$(git tag --merged origin/release/prod)
-          all_tags=$(echo -e "$tags_main\n$tags_prod" | sort -u)
+          tags_main=$(git tag --merged origin/main 2>/dev/null || echo "")
+          tags_prod=$(git tag --merged origin/release/prod 2>/dev/null || echo "")
+          all_tags=$(printf "%s\n%s" "$tags_main" "$tags_prod" | sort -u)
           latest_tag=$(echo "$all_tags" | sort -V | tail -n 1)
+          echo "$latest_tag"
           echo "version=$latest_tag" >> $GITHUB_OUTPUT
+
+      - name: Make build.sh executable
+        run: chmod +x .github/workflows/build.sh
 
       - name: Build binaries
         run: .github/workflows/build.sh
