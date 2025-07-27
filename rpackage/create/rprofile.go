@@ -14,7 +14,7 @@ source("init.R")
 		pppm)
 }
 
-// rprofile holds the information on the .Rprofile file
+// rprofile creates the .Rprofile file
 func rprofile(pppm string, packagePath string) error {
 	s := files.Rprofile
 	if err := os.WriteFile(filepath.Join(packagePath, s), []byte(rprofileContent(pppm)), 0644); err != nil {

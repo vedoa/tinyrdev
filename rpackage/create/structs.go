@@ -27,6 +27,7 @@ type PackageFiles struct {
 	Rprofile         string
 	Rproj            string
 	Testthat         string
+	NEWS             string
 }
 
 // Create a "constant" instance
@@ -41,6 +42,7 @@ var files = PackageFiles{
 	Rprofile:         ".Rprofile",
 	Rproj:            ".Rproj",
 	Testthat:         "testthat.R",
+	NEWS:             "NEWS.md",
 }
 
 type PackageDirs struct {

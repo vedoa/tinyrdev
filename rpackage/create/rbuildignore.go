@@ -21,6 +21,7 @@ visual_test
 ^ISSUE_TEMPLATE\.md$
 ^CODE_OF_CONDUCT\.md$
 ^NEWS$
+^NEWS.md$
 ^revdep$
 ^\.httr-oauth$
 ^codecov\.yml$
