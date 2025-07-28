@@ -6,35 +6,35 @@ import (
 	"testing"
 )
 
-func TestGitignore(t *testing.T) {
-	tmpDir, err := os.MkdirTemp("", "gitignore-test")
+func TestReadme(t *testing.T) {
+	// Create a temporary directory
+	tmpDir, err := os.MkdirTemp("", "readme-test")
 	if err != nil {
 		t.Fatalf("Failed to create temp dir: %v", err)
 	}
-	defer os.RemoveAll(tmpDir)
+	defer os.RemoveAll(tmpDir) // Clean up
 
-	// Fake image name
+	// Call the function
 	packageName := "test"
-
-	err = gitignore(packageName, tmpDir)
+	err = readme(packageName, tmpDir)
 	if err != nil {
 		t.Fatalf("Expected nil found %s", err.Error())
 	}
 
 	// Check file exists
-	testFile := filepath.Join(tmpDir, files.Gitignore)
+	testFile := filepath.Join(tmpDir, files.README)
 	if _, err := os.Stat(testFile); os.IsNotExist(err) {
 		t.Fatalf("Expected file %s not found", testFile)
 	}
 
-	// Check content
+	// Check if content matches
 	content, err := os.ReadFile(testFile)
 	if err != nil {
-		t.Fatalf("Failed to read %s: %v", files.Gitignore, err)
+		t.Fatalf("Failed to read file %s: %v", files.README, err)
 	}
 
-	expected := gitignoreContent(packageName)
+	expected := readmeContent(packageName)
 	if string(content) != expected {
-		t.Errorf("%s content mismatch.", files.Gitignore)
+		t.Errorf("%s content mismatch.", files.README)
 	}
 }

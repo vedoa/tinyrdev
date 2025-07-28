@@ -23,7 +23,7 @@ func TestTestthat(t *testing.T) {
 
 	err = testthat(packageName, tmpDir)
 	if err != nil {
-		t.Fatalf("Expected nill found %s", err.Error())
+		t.Fatalf("Expected nil found %s", err.Error())
 	}
 
 	// Check file exists

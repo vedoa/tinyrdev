@@ -19,7 +19,7 @@ func TestNews(t *testing.T) {
 	packageVersion := "1.0.0"
 	err = news(packageName, packageVersion, tmpDir)
 	if err != nil {
-		t.Fatalf("Expected nill found %s", err.Error())
+		t.Fatalf("Expected nil found %s", err.Error())
 	}
 
 	// Check file exists
@@ -31,11 +31,11 @@ func TestNews(t *testing.T) {
 	// Check if content matches
 	content, err := os.ReadFile(testFile)
 	if err != nil {
-		t.Fatalf("Failed to read file %s: %v", files.Rprofile, err)
+		t.Fatalf("Failed to read file %s: %v", files.NEWS, err)
 	}
 
 	expected := newsContent(packageName, packageVersion)
 	if string(content) != expected {
-		t.Errorf("%s content mismatch.", files.Rprofile)
+		t.Errorf("%s content mismatch.", files.NEWS)
 	}
 }
