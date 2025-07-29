@@ -72,5 +72,9 @@ func CreatePackage(meta PackageMetadata, dir string) error {
 	if err != nil {
 		return err
 	}
+	err = readme(meta.Name, packagePath)
+	if err != nil {
+		return err
+	}
 	return nil
 }
