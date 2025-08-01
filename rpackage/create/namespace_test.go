@@ -14,14 +14,18 @@ func TestNamespace(t *testing.T) {
 	}
 	defer os.RemoveAll(tmpDir) // Clean up
 
+	pkg := PackageMetadata{
+		Dir: tmpDir,
+	}
+
 	// Call the function
-	err = namespace(tmpDir)
+	err = namespace(pkg)
 	if err != nil {
 		t.Fatalf("Expected nil found %s", err.Error())
 	}
 
 	// Check file exists
-	testFile := filepath.Join(tmpDir, files.NAMESPACE)
+	testFile := filepath.Join(pkg.Dir, files.NAMESPACE)
 	if _, err := os.Stat(testFile); os.IsNotExist(err) {
 		t.Fatalf("Expected file %s not found", testFile)
 	}

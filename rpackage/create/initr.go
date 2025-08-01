@@ -30,9 +30,9 @@ cat("\n")
 `
 
 // initr holds the information on the init.R file
-func initr(packagePath string) error {
+func initr(meta PackageMetadata) error {
 	s := files.InitR
-	if err := os.WriteFile(filepath.Join(packagePath, s), []byte(initrContent), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(meta.Dir, s), []byte(initrContent), 0644); err != nil {
 		return err
 	}
 	return inform(s)

@@ -13,16 +13,18 @@ func TestGitignore(t *testing.T) {
 	}
 	defer os.RemoveAll(tmpDir)
 
-	// Fake image name
-	packageName := "test"
+	pkg := PackageMetadata{
+		Dir:  tmpDir,
+		Name: "test",
+	}
 
-	err = gitignore(packageName, tmpDir)
+	err = gitignore(pkg)
 	if err != nil {
 		t.Fatalf("Expected nil found %s", err.Error())
 	}
 
 	// Check file exists
-	testFile := filepath.Join(tmpDir, files.Gitignore)
+	testFile := filepath.Join(pkg.Dir, files.Gitignore)
 	if _, err := os.Stat(testFile); os.IsNotExist(err) {
 		t.Fatalf("Expected file %s not found", testFile)
 	}
@@ -33,8 +35,8 @@ func TestGitignore(t *testing.T) {
 		t.Fatalf("Failed to read %s: %v", files.Gitignore, err)
 	}
 
-	expected := gitignoreContent(packageName)
-	if string(content) != expected {
+	if string(content) != gitignoreContent {
 		t.Errorf("%s content mismatch.", files.Gitignore)
 	}
+
 }

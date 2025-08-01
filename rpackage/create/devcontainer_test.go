@@ -20,10 +20,12 @@ func TestDevcontainer(t *testing.T) {
 		t.Fatalf("Failed to create tests dir: %v", err)
 	}
 
-	// Fake image name
-	img := "ghcr.io/rocker-org/devcontainer/r-ver:4"
+	pkg := PackageMetadata{
+		Dir:   tmpDir,
+		Image: "ghcr.io/rocker-org/devcontainer/r-ver:4",
+	}
 
-	err = devcontainer(img, tmpDir)
+	err = devcontainer(pkg)
 	if err != nil {
 		t.Fatalf("Expected nil found %s", err.Error())
 	}
@@ -40,7 +42,7 @@ func TestDevcontainer(t *testing.T) {
 		t.Fatalf("Failed to read %s: %v", files.DevcontainerJSON, err)
 	}
 
-	expected := devcontainerContent(img)
+	expected := devcontainerContent(pkg.Image)
 	if string(content) != expected {
 		t.Errorf("%s content mismatch.", files.DevcontainerJSON)
 	}

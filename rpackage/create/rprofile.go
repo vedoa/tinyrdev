@@ -15,9 +15,9 @@ source("init.R")
 }
 
 // rprofile creates the .Rprofile file
-func rprofile(pppm string, packagePath string) error {
+func rprofile(meta PackageMetadata) error {
 	s := files.Rprofile
-	if err := os.WriteFile(filepath.Join(packagePath, s), []byte(rprofileContent(pppm)), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(meta.Dir, s), []byte(rprofileContent(meta.PPPM)), 0644); err != nil {
 		return err
 	}
 	return inform(s)

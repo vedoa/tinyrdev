@@ -16,9 +16,9 @@ test_check("%s")
 }
 
 // testthat holds the information on the testthat.R file
-func testthat(packageName string, packagePath string) error {
+func testthat(meta PackageMetadata) error {
 	s := files.Testthat
-	if err := os.WriteFile(filepath.Join(packagePath, "tests", s), []byte(testthatContent(packageName)), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(meta.Dir, "tests", s), []byte(testthatContent(meta.Name)), 0644); err != nil {
 		return err
 	}
 	return inform(s)

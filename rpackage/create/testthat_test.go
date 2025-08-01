@@ -19,9 +19,12 @@ func TestTestthat(t *testing.T) {
 		t.Fatalf("Failed to create tests dir: %v", err)
 	}
 
-	packageName := "mypackage"
+	pkg := PackageMetadata{
+		Name: "mypackage",
+		Dir:  tmpDir,
+	}
 
-	err = testthat(packageName, tmpDir)
+	err = testthat(pkg)
 	if err != nil {
 		t.Fatalf("Expected nil found %s", err.Error())
 	}
@@ -38,7 +41,7 @@ func TestTestthat(t *testing.T) {
 		t.Fatalf("Failed to read %s: %v", files.Testthat, err)
 	}
 
-	expected := testthatContent(packageName)
+	expected := testthatContent(pkg.Name)
 	if string(content) != expected {
 		t.Errorf("%s content mismatch.", files.Testthat)
 	}

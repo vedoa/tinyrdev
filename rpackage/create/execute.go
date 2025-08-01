@@ -59,10 +59,11 @@ func Execute(v string, args []string) error {
 		Image:       *image,
 		CreateDir:   *createdir,
 		PPPM:        *pppm,
+		Dir:         *dir,
 	}
 
 	// Create the package
-	err := CreatePackage(meta, *dir)
+	err := CreatePackage(meta)
 	if err != nil {
 		return errors.New("Failed to create package: " + err.Error())
 	}

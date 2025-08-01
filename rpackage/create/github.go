@@ -44,9 +44,9 @@ jobs:
 }
 
 // github holds the information on the package.yml file
-func github(image string, packagePath string) error {
+func github(meta PackageMetadata) error {
 	s := files.PackageYML
-	if err := os.WriteFile(filepath.Join(packagePath, dirs.Github_Workflows, s), []byte(githubContent(image)), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(meta.Dir, dirs.Github_Workflows, s), []byte(githubContent(meta.Image)), 0644); err != nil {
 		return err
 	}
 	return inform(s)

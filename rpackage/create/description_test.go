@@ -27,15 +27,16 @@ func TestDescription(t *testing.T) {
 		Image:       "ghcr.io/rocker-org/devcontainer/r-ver:4",
 		CreateDir:   true,
 		PPPM:        "https://packagemanager.posit.co/cran/__linux__/noble/latest",
+		Dir:         tmpDir,
 	}
 
-	err = description(pkg, tmpDir)
+	err = description(pkg)
 	if err != nil {
 		t.Fatalf("Expected nil found %s", err.Error())
 	}
 
 	// Check file exists
-	testFile := filepath.Join(tmpDir, files.DESCRIPTION)
+	testFile := filepath.Join(pkg.Dir, files.DESCRIPTION)
 	if _, err := os.Stat(testFile); os.IsNotExist(err) {
 		t.Fatalf("Expected file %s not found", testFile)
 	}

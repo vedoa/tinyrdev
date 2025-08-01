@@ -17,9 +17,9 @@ func newsContent(packageName string, packageVersion string) string {
 }
 
 // news creates the NEWS.md file
-func news(packageName string, packageVersion string, packagePath string) error {
+func news(meta PackageMetadata) error {
 	s := files.NEWS
-	if err := os.WriteFile(filepath.Join(packagePath, s), []byte(newsContent(packageName, packageVersion)), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(meta.Dir, s), []byte(newsContent(meta.Name, meta.Version)), 0644); err != nil {
 		return err
 	}
 	return inform(s)

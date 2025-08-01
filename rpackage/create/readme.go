@@ -34,9 +34,9 @@ TODO
 }
 
 // news creates the NEWS.md file
-func readme(packageName string, packagePath string) error {
+func readme(meta PackageMetadata) error {
 	s := files.README
-	if err := os.WriteFile(filepath.Join(packagePath, s), []byte(readmeContent(packageName)), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(meta.Dir, s), []byte(readmeContent(meta.Name)), 0644); err != nil {
 		return err
 	}
 	return inform(s)

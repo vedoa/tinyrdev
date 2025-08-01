@@ -15,15 +15,18 @@ func TestRprofile(t *testing.T) {
 	defer os.RemoveAll(tmpDir) // Clean up
 
 	// Call the function
-	pppm := "https://packagemanager.posit.co/cran/__linux__/noble/latest"
+	pkg := PackageMetadata{
+		PPPM: "https://packagemanager.posit.co/cran/__linux__/noble/latest",
+		Dir:  tmpDir,
+	}
 
-	err = rprofile(pppm, tmpDir)
+	err = rprofile(pkg)
 	if err != nil {
 		t.Fatalf("Expected nil found %s", err.Error())
 	}
 
 	// Check file exists
-	testFile := filepath.Join(tmpDir, files.Rprofile)
+	testFile := filepath.Join(pkg.Dir, files.Rprofile)
 	if _, err := os.Stat(testFile); os.IsNotExist(err) {
 		t.Fatalf("Expected file %s not found", testFile)
 	}
@@ -34,7 +37,7 @@ func TestRprofile(t *testing.T) {
 		t.Fatalf("Failed to read file %s: %v", files.Rprofile, err)
 	}
 
-	expected := rprofileContent(pppm)
+	expected := rprofileContent(pkg.PPPM)
 	if string(content) != expected {
 		t.Errorf("%s content mismatch.", files.Rprofile)
 	}

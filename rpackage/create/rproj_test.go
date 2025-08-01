@@ -14,16 +14,18 @@ func TestRproj(t *testing.T) {
 	}
 	defer os.RemoveAll(tmpDir) // Clean up
 
-	// Call the function
-	packageName := "mypackage"
+	pkg := PackageMetadata{
+		Name: "mypackage",
+		Dir:  tmpDir,
+	}
 
-	err = rproj(packageName, tmpDir)
+	err = rproj(pkg)
 	if err != nil {
 		t.Fatalf("Expected nil found %s", err.Error())
 	}
 
 	// Check file exists
-	testFile := filepath.Join(tmpDir, packageName+files.Rproj)
+	testFile := filepath.Join(pkg.Dir, pkg.Name+files.Rproj)
 	if _, err := os.Stat(testFile); os.IsNotExist(err) {
 		t.Fatalf("Expected file %s not found", testFile)
 	}

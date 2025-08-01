@@ -15,14 +15,18 @@ func TestInitr(t *testing.T) {
 	}
 	defer os.RemoveAll(tmpDir) // Clean up
 
+	pkg := PackageMetadata{
+		Dir: tmpDir,
+	}
+
 	// Call the function
-	err = initr(tmpDir)
+	err = initr(pkg)
 	if err != nil {
 		t.Fatalf("Expected nil found %s", err.Error())
 	}
 
 	// Check file exists
-	testFile := filepath.Join(tmpDir, files.InitR)
+	testFile := filepath.Join(pkg.Dir, files.InitR)
 	if _, err := os.Stat(testFile); os.IsNotExist(err) {
 		t.Fatalf("Expected file %s not found", testFile)
 	}

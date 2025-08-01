@@ -14,15 +14,18 @@ func TestReadme(t *testing.T) {
 	}
 	defer os.RemoveAll(tmpDir) // Clean up
 
-	// Call the function
-	packageName := "test"
-	err = readme(packageName, tmpDir)
+	pkg := PackageMetadata{
+		Name: "test",
+		Dir:  tmpDir,
+	}
+
+	err = readme(pkg)
 	if err != nil {
 		t.Fatalf("Expected nil found %s", err.Error())
 	}
 
 	// Check file exists
-	testFile := filepath.Join(tmpDir, files.README)
+	testFile := filepath.Join(pkg.Dir, files.README)
 	if _, err := os.Stat(testFile); os.IsNotExist(err) {
 		t.Fatalf("Expected file %s not found", testFile)
 	}
@@ -33,7 +36,7 @@ func TestReadme(t *testing.T) {
 		t.Fatalf("Failed to read file %s: %v", files.README, err)
 	}
 
-	expected := readmeContent(packageName)
+	expected := readmeContent(pkg.Name)
 	if string(content) != expected {
 		t.Errorf("%s content mismatch.", files.README)
 	}

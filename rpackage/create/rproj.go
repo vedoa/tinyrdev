@@ -30,9 +30,9 @@ PackageRoxygenize: rd,collate,namespace
 `
 
 // rproj holds the information on the .Rproj file
-func rproj(packageName string, packagePath string) error {
+func rproj(meta PackageMetadata) error {
 	s := files.Rproj
-	if err := os.WriteFile(filepath.Join(packagePath, packageName+s), []byte(rprojContent), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(meta.Dir, meta.Name+s), []byte(rprojContent), 0644); err != nil {
 		return err
 	}
 	return inform(s)

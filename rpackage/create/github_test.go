@@ -19,10 +19,12 @@ func TestGithub(t *testing.T) {
 		t.Fatalf("Failed to create tests dir: %v", err)
 	}
 
-	// Fake image name
-	img := "ghcr.io/rocker-org/devcontainer/r-ver:4"
+	pkg := PackageMetadata{
+		Dir:   tmpDir,
+		Image: "ghcr.io/rocker-org/devcontainer/r-ver:4",
+	}
 
-	err = github(img, tmpDir)
+	err = github(pkg)
 	if err != nil {
 		t.Fatalf("Expected nil found %s", err.Error())
 	}
@@ -39,7 +41,7 @@ func TestGithub(t *testing.T) {
 		t.Fatalf("Failed to read %s: %v", files.PackageYML, err)
 	}
 
-	expected := githubContent(img)
+	expected := githubContent(pkg.Image)
 	if string(content) != expected {
 		t.Errorf("%s content mismatch.", files.PackageYML)
 	}

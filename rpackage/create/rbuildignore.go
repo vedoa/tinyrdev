@@ -42,9 +42,9 @@ visual_test
 `
 
 // rbuildignore holds the information on the .Rbuildignore file
-func rbuildignore(packagePath string) error {
+func rbuildignore(meta PackageMetadata) error {
 	s := files.Rbuildignore
-	if err := os.WriteFile(filepath.Join(packagePath, s), []byte(rbuildignoreContent), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(meta.Dir, s), []byte(rbuildignoreContent), 0644); err != nil {
 		return err
 	}
 	return inform(s)

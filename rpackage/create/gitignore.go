@@ -1,14 +1,12 @@
 package create
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 )
 
 // gitignoreContent content of the file
-func gitignoreContent(packageName string) string {
-	return fmt.Sprintf(`// # Retrieved 2017-Oct-12 from https://github.com/github/gitignore/blob/master/R.gitignore
+const gitignoreContent = `// # Retrieved 2017-Oct-12 from https://github.com/github/gitignore/blob/master/R.gitignore
 // # Licensed under CC0-1.0 https://github.com/github/gitignore/blob/master/LICENSE
 
 # History files
@@ -81,15 +79,13 @@ vignettes/*.pdf
 *.app
 
 ## custom tinyrdev
-%s/env
-`,
-		packageName)
-}
+/env
+`
 
 // gitignore creates the .gitignore file
-func gitignore(packageName string, packagePath string) error {
+func gitignore(meta PackageMetadata) error {
 	s := files.Gitignore
-	if err := os.WriteFile(filepath.Join(packagePath, s), []byte(gitignoreContent(packageName)), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(meta.Dir, s), []byte(gitignoreContent), 0644); err != nil {
 		return err
 	}
 	return inform(s)

@@ -13,6 +13,7 @@ type PackageMetadata struct {
 	Image       string
 	CreateDir   bool
 	PPPM        string
+	Dir         string
 }
 
 // Define the struct

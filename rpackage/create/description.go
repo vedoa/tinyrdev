@@ -36,9 +36,9 @@ RoxygenNote: 7.3.2
 }
 
 // description creates the DESCRIPTION file
-func description(meta PackageMetadata, packagePath string) error {
+func description(meta PackageMetadata) error {
 	s := files.DESCRIPTION
-	if err := os.WriteFile(filepath.Join(packagePath, s), []byte(descriptionContent(meta)), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(meta.Dir, s), []byte(descriptionContent(meta)), 0644); err != nil {
 		return err
 	}
 	return inform(s)

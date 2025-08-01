@@ -14,16 +14,19 @@ func TestNews(t *testing.T) {
 	}
 	defer os.RemoveAll(tmpDir) // Clean up
 
-	// Call the function
-	packageName := "test"
-	packageVersion := "1.0.0"
-	err = news(packageName, packageVersion, tmpDir)
+	pkg := PackageMetadata{
+		Name:    "test",
+		Version: "1.0.0",
+		Dir:     tmpDir,
+	}
+
+	err = news(pkg)
 	if err != nil {
 		t.Fatalf("Expected nil found %s", err.Error())
 	}
 
 	// Check file exists
-	testFile := filepath.Join(tmpDir, files.NEWS)
+	testFile := filepath.Join(pkg.Dir, files.NEWS)
 	if _, err := os.Stat(testFile); os.IsNotExist(err) {
 		t.Fatalf("Expected file %s not found", testFile)
 	}
@@ -34,7 +37,7 @@ func TestNews(t *testing.T) {
 		t.Fatalf("Failed to read file %s: %v", files.NEWS, err)
 	}
 
-	expected := newsContent(packageName, packageVersion)
+	expected := newsContent(pkg.Name, pkg.Version)
 	if string(content) != expected {
 		t.Errorf("%s content mismatch.", files.NEWS)
 	}
