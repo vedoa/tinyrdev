@@ -1,6 +1,6 @@
 {
 	"name": "tinyrdev",
-	"image": "golang:1.24.5-bookworm",
+	"image": "golang:1.25.0-bookworm",
 	"customizations": {
 		"vscode": {
 			"extensions": [
