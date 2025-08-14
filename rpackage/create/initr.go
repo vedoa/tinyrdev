@@ -24,7 +24,7 @@ packagePath <- file.path(getwd(), "env", sysName)
 # check existence
 if(!dir.exists(packagePath)){
   # create if necessary
-  dir.create(packagePath)
+  dir.create(packagePath, recursive = TRUE)
   # inform user
   cat(paste0("Path ", packagePath, " created.\n"))
 }
