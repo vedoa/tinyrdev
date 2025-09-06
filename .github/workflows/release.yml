@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: golang:1.25.0-bookworm
+      image: golang:1.25.1-bookworm
 
     steps:
       - name: Checkout code
